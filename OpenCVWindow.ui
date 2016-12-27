@@ -46,6 +46,19 @@
         </rect>
        </property>
       </widget>
+      <widget class="QLabel" name="eularLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>520</y>
+         <width>321</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>100</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="tabProcessed">
       <attribute name="title">

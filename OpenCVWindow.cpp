@@ -5,8 +5,12 @@
 #include <QPalette>
 #include <QDebug>
 #include "WorkTable.h"
+#include <stdlib.h>
+#include <QString>
 
-#define VIDEO_ID  1
+
+
+#define VIDEO_ID  0
 
 #define H_MAX 136
 #define H_MIN 102
@@ -37,6 +41,15 @@ OpenCVWindow::OpenCVWindow(QWidget *parent) : QDialog(parent), ui(new Ui::OpenCV
 	repeatTimer = new QTimer(this);
 	connect (repeatTimer, SIGNAL(timeout()), this, SLOT(videoProcess()));
 	repeatTimer->start(40);
+
+	readFileTimer = new QTimer(this);
+	connect(readFileTimer, SIGNAL(timeout()), this, SLOT(readText()) );
+	readFileTimer->start(500);
+
+	//	eularAngleText = new QString();
+
+	stepped = 0;
+
 }
 
 OpenCVWindow::~OpenCVWindow(){
@@ -68,6 +81,22 @@ void OpenCVWindow::videoProcess(){
 	ui->labelOriginal->setPixmap(QPixmap::fromImage(qimgOriginal));
 	ui->labelProcessed->setPixmap(QPixmap::fromImage(qimgProcessed));
 
+
+}
+
+void OpenCVWindow::readText(){
+	inFile.open("/home/semiartist/Desktop/amir_libximu/build/eular_angle.txt");
+	if(inFile.is_open()) std::getline(inFile, line);
+	else QMessageBox::warning(this, "File Does Not Exist", "Can not open file");
+
+	eularAngle = std::stod(line);
+	eularAngleText = QString::number(eularAngle);
+
+	ui->eularLabel->setText(eularAngleText);
+
+	qDebug() << eularAngle << "<- double || string->" <<  eularAngleText << '\n';
+
+	inFile.close();
 
 }
 
@@ -110,16 +139,18 @@ void OpenCVWindow::findMovement(cv::Mat thresholdImage, cv::Mat &cameraFeed){
 	int x = theObject[0];
 	int y = theObject[1];
 	//draw some crosshairs on the object
-	cv::circle(cameraFeed,cv::Point(x,y),20,cv::Scalar(0,255,0),2);
-	cv::line(cameraFeed,cv::Point(x,y),cv::Point(x,y-25),cv::Scalar(0,255,0),2);
-	cv::line(cameraFeed,cv::Point(x,y),cv::Point(x,y+25),cv::Scalar(0,255,0),2);
-	cv::line(cameraFeed,cv::Point(x,y),cv::Point(x-25,y),cv::Scalar(0,255,0),2);
-	cv::line(cameraFeed,cv::Point(x,y),cv::Point(x+25,y),cv::Scalar(0,255,0),2);
-	cv::putText(cameraFeed,"Tracking object at (" + intToString(x)+","+intToString(y)+")",cv::Point(x,y),1,1,cv::Scalar(255,0,0),2);
+//	qDebug() << objectBoundingRectangle.width << "<- width || height ->" << objectBoundingRectangle.height << '\n';
+	if (objectBoundingRectangle.width > 25 || objectBoundingRectangle.height > 25){
+		cv::circle(cameraFeed,cv::Point(x,y),20,cv::Scalar(0,255,0),2);
+		cv::line(cameraFeed,cv::Point(x,y),cv::Point(x,y-25),cv::Scalar(0,255,0),2);
+		cv::line(cameraFeed,cv::Point(x,y),cv::Point(x,y+25),cv::Scalar(0,255,0),2);
+		cv::line(cameraFeed,cv::Point(x,y),cv::Point(x-25,y),cv::Scalar(0,255,0),2);
+		cv::line(cameraFeed,cv::Point(x,y),cv::Point(x+25,y),cv::Scalar(0,255,0),2);
+		cv::putText(cameraFeed,"Tracking object at (" + intToString(x)+","+intToString(y)+")",cv::Point(x,y),1,1,cv::Scalar(255,0,0),2);
 
-
-	trackLocation(x, y);
-
+		trackLocation(x, y);
+		setStep(x,y);
+	}
 
 }
 
@@ -134,11 +165,22 @@ std::string OpenCVWindow::intToString(int number){
 void OpenCVWindow::trackLocation(int x, int y) {
 	xPos = x;
 	yPos = y;
-	if (xPos > 200 && yPos > 150){
-		qDebug() << "more than threshold!";
+	if (xPos > 200 && yPos > 150 && std::abs(eularAngle) > 150 && stepped == 0){
+//		qDebug() << "more than threshold!";
+
 		ui->textEditFlag->setPalette(QPalette(Qt::green));
 		table->nextStep();
+		stepped = 1;
 	} else {
 		ui->textEditFlag->setPalette(QPalette(Qt::red));
 	}
+}
+
+void OpenCVWindow::setStep(int x, int y){
+	if (x < 20) {
+		stepped = 0;
+	}
+	if (y < 20) stepped = 0;
+
+//	qDebug() << "stepped -> " << stepped << '\n';
 }

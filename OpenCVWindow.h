@@ -8,6 +8,7 @@
 #include <QImage>
 #include <QTimer>
 #include <string>
+#include <fstream>
 
 namespace Ui {
 class OpenCVWindow;
@@ -23,6 +24,7 @@ public:
 
 private slots:
 	void videoProcess();
+	void readText();
 
 private:
 	Ui::OpenCVWindow *ui;
@@ -32,18 +34,24 @@ private:
 	cv::Mat HSV1, HSV2;
 	cv::Mat grayImage1, grayImage2;
 	cv::Mat differenceImage, thresholdImage;
+	std::string line;
+	std::ifstream inFile;
 
+	QString eularAngleText;
 	QImage *original;
 	QImage *processed;
-
+	QTimer *readFileTimer;
 	QTimer *repeatTimer;
+	double eularAngle;
 
 	int xPos, yPos;
+	int stepped;
 	// private functions
 	void furtherImageProcess(cv::Mat &input);
 	void findMovement(cv::Mat thresholdImage, cv::Mat &cameraFeed);
 	std::string intToString(int number);
 	void trackLocation(int xPos, int yPos);
+	void setStep(int, int);
 
 };
 

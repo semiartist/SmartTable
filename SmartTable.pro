@@ -12,6 +12,7 @@ TARGET = SmartTable
 TEMPLATE = app
 
 
+
 SOURCES += main.cpp \
     Button.cpp \
     PhotoDisplay.cpp \
@@ -37,6 +38,11 @@ FORMS    += \
 RESOURCES += \
     Res.qrc
 
-LIBS += -L/usr/local/lib -L/usr/local/share/OpenCV/3rdparty/lib/
-CONFIG  += link_pkgconfig
+LIBS += -L/usr/local/lib\
+	-L/usr/local/share/OpenCV/3rdparty/lib/\
+	-L/usr/lib/x86_64-linux-gnu -lboost_system
+
+CONFIG  += link_pkgconfig\
+	c++11
+
 PKGCONFIG += opencv
