@@ -1,10 +1,28 @@
 <RCC>
     <qresource prefix="/wiPhoto">
-        <file>photos/step1.jpg</file>
-        <file>photos/step2.jpg</file>
-        <file>photos/step3.jpg</file>
-        <file>photos/step4.jpg</file>
-        <file>photos/step5.jpg</file>
-        <file>photos/step6.jpg</file>
+        <file>photos/step1_1.jpg</file>
+        <file>photos/step2_1.jpg</file>
+        <file>photos/step3_1.jpg</file>
+        <file>photos/step3_2.jpg</file>
+        <file>photos/step4_1.jpg</file>
+        <file>photos/step5_1.jpg</file>
+        <file>photos/step5_2.jpg</file>
+        <file>photos/step6_1.jpg</file>
+        <file>photos/step6_2.jpg</file>
+        <file>photos/step7_1.jpg</file>
+        <file>photos/step8_1.jpg</file>
+        <file>photos/step8_2.jpg</file>
+        <file>photos/step9_1.jpg</file>
+        <file>photos/step9_2.jpg</file>
+        <file>photos/step10_1.jpg</file>
+        <file>photos/step11_1.jpg</file>
+        <file>photos/step11_2.jpg</file>
+        <file>photos/step12_1.jpg</file>
+        <file>photos/step13_1.jpg</file>
+        <file>photos/step13_2.jpg</file>
+        <file>photos/step14_1.jpg</file>
+        <file>photos/step14_2.jpg</file>
+        <file>photos/step15_1.jpg</file>
+        <file>photos/step9_3.jpg</file>
     </qresource>
 </RCC>

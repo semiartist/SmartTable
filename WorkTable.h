@@ -34,14 +34,18 @@ public:
 	TextDisplay *_textArea;
 
 	// public functions:
-	void next();
+	void next(int);
 	void goToStep(int step);
 	void drawGUI();
 	void displayMainMenu();
-	void mousePressEvent(QMouseEvent *event);
+//	void mousePressEvent(QMouseEvent *event);
+	void keyPressEvent(QKeyEvent *event);
+	void highBackground(int);
 
 	// functions for opencv
 	void setImage(QImage im);
+	void stepInfo(int a, int b);
+
 
 
 protected :
@@ -52,17 +56,35 @@ public slots:
 	void deHighLightAll();
 	void startWork();
 	void nextStep();
+	void preStep();
 	void updateView();
-	void addNewComponentBox();
+//	void addNewComponentBox();
 	void showCVDetail();
 	void temp();
+
+private slots:
+	void stepControl();
 
 private:
 	QImage _image;
 	int _width;
 	int _height;
 	int entered;
+	int component;
+	int frameNumber;
+	bool stepped;
+
 	OpenCVWindow *newDialog;
+	QTimer *stepTimer;
+	QTimer *highlightTimer;
+	ApplicationArea *componentBox1;
+	ApplicationArea *componentBox2;
+	ApplicationArea *componentBox3;
+	ApplicationArea *componentBox4;
+
+	ApplicationArea *toolBox1;
+	ApplicationArea *toolBox2;
+
 	// cv::VideoCapture video;
 	// cv::Mat frame;
 
