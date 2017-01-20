@@ -14,9 +14,9 @@
 
 #define H_MAX 136
 #define H_MIN 67
-#define S_MAX 175
+#define S_MAX 244
 #define S_MIN 92
-#define V_MAX 248
+#define V_MAX 256
 #define V_MIN 82
 #define SENSITIVITY_VALUE 20
 #define BLUR_SIZE 10
@@ -344,7 +344,7 @@ void OpenCVWindow::setReachStatus() {
 	}
 	table->stepInfo(moveFlag, moveTicker);
 
-	if (moveTicker > 7){
+	if (moveTicker > 4){
 		switch(number) {
 		case 1:
 			getComp1 = true;
